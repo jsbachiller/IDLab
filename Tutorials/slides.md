@@ -45,12 +45,24 @@ class: invert
 
 ---
 
+# Basic R
+
+- We assign variables with `<-`, `->` or `=`. Doing `x = 1`, `x <- 1` or `1 -> x` are exactly equivalent. You can define several variables at once: `x <- y <- z <- 1`.
+- Boolean operators are `==`, `>`, `<`, `|`. To negate any of the former, we use `!`.
+- Functions follow this structure: `some_function(arg1 = val1, arg2 = val2, ...)` 
+- Conditional statements can be done by using: `if(conditions) {do this}`. Similar syntax applies for loops: `for(i in set) {do this}`, where `i` is a variable inside the loop that will still exist when it ends.
+- Packages are loaded by running `library(package_name)`, and installed by `install.packages("package_name")` (note the quotes!)
+
+
+---
+
 # The 'tidyverse'
 
 The [tidyverse](https://www.tidyverse.org/packages/#installation-and-use) environment is a set of packages that has become one of the most complete and powerful solutions available in R to do anything related to data cleaning and visualization. It is based on:
 
-- A concrete `grammar` of data manipulation with which code can be written in a sentence-like manner, making it easily readible and very intuitive. 
-- The concept of `tidy` data: All columns are variables, are rows are observations.
+- A concrete *grammar* of data manipulation with which code can be written in a sentence-like manner, making it easily readible and very intuitive. 
+- The concept of *tidy* data: All columns are variables, are rows are observations.
+- *Vectorised* operations: No more time-consuming ugly-looking loops.
 
 **The basic idea is to concatenate a series of verbs (functions) to manipulate the data by creating a `pipe`, using the *pipe operator* `%>%`**
 
@@ -66,7 +78,47 @@ Should we have other formats of data, additional packages are included, such as 
 **Good news:** We can export the resulting data using the same command but replacing `read` by `write`.
 
 ---
+# Load the data
+
+```R
+library(tidyverse)
+
+read_csv("exampleData.csv") -> csv_data
+read_csv("exampleData.dta") -> dta_data
+read_csv("exampleData.xls") -> excel_data
+```
+
+---
+
+# Manage the data
+
+The `dplyr` package from the tidyverse is the main workhorse regarding data manipulation. 
+
+## Data browsing
 
 
 
-You can find cheatsheets for the tidyverse (and some other useful packages) with all relevant functions and a quick summary of how to use them in [here](https://www.rstudio.com/resources/cheatsheets/)
+---
+
+# Manage the data
+
+## Data manipulation
+
+There are two kind of functions to be used: *summary* functions (which retrieves information from all data points) or *vectorised* functions (which applies a transformation to each data point) to be used and then the operation to be performed. 
+
+---
+
+# Manage the data
+
+So far it looks quite similar to any other possible language, but when we put things together, is when the magic kicks in:
+
+```
+
+```
+
+Why can this method be more efficient? Because it does what is called *lazy* evaluation, that is, it executes the commands sentence once it understands all steps it needs to do. It does not load the data, 
+
+---
+
+
+You can find cheatsheets for the `tidyverse` (and some other useful packages) with all relevant functions and a quick summary of how to use them in [here](https://www.rstudio.com/resources/cheatsheets/)
