@@ -34,6 +34,13 @@ read_html(source_url) %>%
 ## Build up our small new dataset
 tibble(date = days, min = min_temps, max = max_temps) -> weather_data
 
+## However, temperature is still treated as character, but in order to work with 
+## it we would need numbers.
+
+weather_data %>%
+  mutate(max = as.numeric(str_replace(max, "−", "-"))) %>%
+  mutate(min = as.numeric(str_replace(min, "−", "-"))) -> weather_data
+
 View(weather_data)
 
 # - Data cleaning --------------------------------------------------------------
@@ -49,9 +56,9 @@ weather_data %>%
   # Format date properly. "b" stands for non-numerically-defined month
   mutate(date = as.Date(paste0(day, month), "%d%b")) %>%
   # We don't really need anymore the "day" and "months" variables
-  select(-day, -month) -> weather_data
+  select(-day, -month) -> weather_data_clean
 
-View(weather_data)
+View(weather_data_clean)
 
 ## Now we can conduct any analysis on this data.
 
@@ -72,8 +79,7 @@ read_html(source_url) %>%
   html_attrs() %>%
   unlist() -> sky
 
-tibble(date = days, min = min_temps, max = max_temps, sky = sky[-1]) -> weather_data
-
+cbind(weather_data, sky = sky[-1]) -> weather_data
 
 weather_data %>%
   
@@ -128,7 +134,8 @@ weather_data %>%
       )
   ) %>% 
   select(-sky, -n_events) %>% 
-  write_csv("Documents/GIT/IDLab/Tutorials/exampleData.csv")
+  write_csv("Tutorials/exampleData.csv")
+
 
 
 
