@@ -115,7 +115,7 @@ weather_data %>%
       # If partially cloudy day, possible rain
       n_events == 2            ~ str_sub(sky, 4, 4)
     ),
-    cloud = as.numeric(clouds),
+    clouds = as.numeric(clouds)/4,
 
     # Retrieve precipitation levels and type
     precipitation = case_when(
@@ -131,8 +131,8 @@ weather_data %>%
         0,
         str_sub(sky, str_length(sky), str_length(sky))
         )
-      )
-  ) %>% 
+      )/4
+  ) %>%
   select(-sky, -n_events) %>% 
   write_csv("Tutorials/exampleData.csv")
 

@@ -60,9 +60,49 @@ temp_data %>%
   mutate(mean_min = mean(min)) %>%
   mutate(deviation_min = abs(mean_min - min))
 
+## Mutate can use most R functions and apply them already vectorized to the 
+## dataset. We could be interested in knowing the mean temperature's daily 
+## change:
 
+temp_data %>%
+  mutate(
+    mean_temp = (min + max)/2
+  ) %>%
+  arrange(date) %>%
+  mutate(
+    temp_change = mean_temp - lag(mean_temp, 1)
+  ) -> temp_changes
 
+## Given that we get NA in the first row, we cannot use the same codes above to
+## retrieve summary stats, as these commands are by default affected by them. 
+## However, we do not need to drop them, but just to activate the option of not
+## considering the NAs when perfoming operations with 'na.rm = TRUE'
 
+temp_changes %>%
+  summarise(
+    mean_change = mean(temp_change, na.rm = TRUE),
+    median_change = median(temp_change, na.rm = TRUE),
+    max_change = max(temp_change, na.rm = TRUE),
+    min_change = min(temp_change, na.rm = TRUE)
+  )
+  
+## However, the true power of tidyverse resides in the fact that it can do these
+## operations group-wise as well. Let's get the minimum temperature for each day
+## of the week...
 
+temp_data %>%
+  group_by(week_day) %>%
+  summarise(min_temp = min(min))
 
+## ... or the weekly temperature change by just adding a line of code
+
+temp_data %>%
+  mutate(
+    mean_temp = (min + max)/2
+  ) %>%
+  group_by(week_day) %>%
+  arrange(date) %>%
+  mutate(
+    temp_change = mean_temp - lag(mean_temp, 1)
+  ) -> temp_changes_weekly
 
