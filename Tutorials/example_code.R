@@ -86,14 +86,23 @@ weather_data %>%
   # Drop non-needed characters and homogenize
   mutate(
     sky = str_sub(sky, 2),
-    sun = ifelse(str_sub(sky, 1) == d, 1, 0),
+    sun = ifelse(str_sub(sky, 1, 1) == "d", 1, 0),
+    n_events = str_count(sky, "_"),
     clouds = case_when(
-      str_sub(sky, 1) == d ~ 1 
-      sky
-    )
-  )
-  -> final_data
+      sun != 0 & n_events == 1 ~ str_sub(sky, 4, 4) ,
+      sun == 0 & n_events == 0 ~ str_sub(sky, 2, 2) ,
+      sun == 0 & n_events == 1 ~ str_sub(sky, 2, 2),
+      n_events == 2 ~ str_sub(sky, 4, 4)
+    ),
+    precipitation = case_when(
+      str_detect(sky, "r") ~ "rain",
+      str_detect(sky, "s") ~ "snow",
+      TRUE ~ "none"
+    ),
+    precipitation = ifelse(str_detect(sky, "rs"), "slush", precipitation)
+  ) -> final_data
 
 
 
-  
+
+
