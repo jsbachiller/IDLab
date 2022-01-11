@@ -1,3 +1,8 @@
+# ------------------------------------------------------------------------------
+# - Data management with R and RStudio: Examples -------------------------------
+# ------------------------------------------------------------------------------
+# - Javier Sánchez Bachiller - IDLab - HSE -------------------------------------
+# ------------------------------------------------------------------------------
 
 # - Load packages --------------------------------------------------------------
 library(tidyverse)
@@ -69,8 +74,6 @@ read_html(source_url) %>%
 
 tibble(date = days, min = min_temps, max = max_temps, sky = sky[-1]) -> weather_data
 
-weather_data %>%
-  mutate(day = str_sub(date, 1, 2))
 
 weather_data %>%
   
@@ -81,27 +84,51 @@ weather_data %>%
   fill(month, .direction = "down") %>%
   # Format date properly. "b" stands for non-numerically-defined month
   mutate(date = as.Date(paste0(day, month), "%d%b")) %>%
-
+  mutate(week_day = weekdays(date)) %>%
+  
 # Define actual weather ---------------
-  # Drop non-needed characters and homogenize
+  # Drop non-needed characters and create variables out of the strings
   mutate(
+    # Drop hash at the beginning
     sky = str_sub(sky, 2),
+    
+    # Identify whether sun will be at all seen during the day
     sun = ifelse(str_sub(sky, 1, 1) == "d", 1, 0),
+    
+    # Retrieve the level of cloudiness
     n_events = str_count(sky, "_"),
     clouds = case_when(
-      sun != 0 & n_events == 1 ~ str_sub(sky, 4, 4) ,
-      sun == 0 & n_events == 0 ~ str_sub(sky, 2, 2) ,
+      # If clear day
+      sun != 0 & n_events == 0 ~ "0",
+      # If partially cloudy day, no rain
+      sun != 0 & n_events == 1 ~ str_sub(sky, 4, 4),
+      # If totally cloudy, no rain
+      sun == 0 & n_events == 0 ~ str_sub(sky, 2, 2),
+      # If totally cloudy, possible rain
       sun == 0 & n_events == 1 ~ str_sub(sky, 2, 2),
-      n_events == 2 ~ str_sub(sky, 4, 4)
+      # If partially cloudy day, possible rain
+      n_events == 2            ~ str_sub(sky, 4, 4)
     ),
+    cloud = as.numeric(clouds),
+
+    # Retrieve precipitation levels and type
     precipitation = case_when(
       str_detect(sky, "r") ~ "rain",
       str_detect(sky, "s") ~ "snow",
       TRUE ~ "none"
     ),
-    precipitation = ifelse(str_detect(sky, "rs"), "slush", precipitation)
-  ) -> final_data
-
+    precipitation = ifelse(str_detect(sky, "rs"), "slush", precipitation),
+    
+    prec_intensity = as.numeric(
+      ifelse(
+        precipitation == "none", 
+        0,
+        str_sub(sky, str_length(sky), str_length(sky))
+        )
+      )
+  ) %>% 
+  select(-sky, -n_events) %>% 
+  write_csv("Documents/GIT/IDLab/Tutorials/exampleData.csv")
 
 
 
