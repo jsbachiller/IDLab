@@ -72,7 +72,7 @@ At the moment, we always worked in one direction: From GitHub down to our machin
 
 To do this, in your GitHub account go to `Settings > Developer Settings > Personal access tokens > Generate new token`, and select *repo* and *workflow*.
 
-Save the token in a folder 
+Save the token somewhere. Go to RStudio, run `install.packages("gitcreds")` and `gitcreds::gitcreds_set()`. Paste there your token to connect RStudio to your GitHub account. You are ready now to push stuff back!
 
 ---
 
