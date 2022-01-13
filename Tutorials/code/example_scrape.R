@@ -13,20 +13,21 @@ library(rvest)
 source_url <- "https://www.gismeteo.com/weather-sankt-peterburg-4079/month/"
 
 ## Get the data
+read_html(source_url) -> web_data
 
-read_html(source_url) %>% 
+web_data %>% 
   # retrieve the date
   html_elements(".date") %>%
   # in a readable format
   html_text() -> days
 
-read_html(source_url) %>% 
+web_data %>% 
   # Maximum temperature...
   html_elements(".maxt") %>% 
   # ... in degrees celsius
   html_elements(".unit_temperature_c") %>% html_text() -> max_temps
 
-read_html(source_url) %>% 
+web_data %>% 
   # Same for minimum
   html_elements(".mint") %>% 
   html_elements(".unit_temperature_c") %>% html_text() -> min_temps
@@ -71,7 +72,7 @@ View(weather_data_clean)
 
 
 ## Re-using the former connection to the webpage, we find the weather icons
-read_html(source_url) %>% 
+web_data %>% 
   html_elements(".icon") %>% 
   # We want to get their internal naming to be able to parse it into datapoints
   html_children() %>% 
