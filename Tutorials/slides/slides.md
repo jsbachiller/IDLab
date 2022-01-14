@@ -1,52 +1,125 @@
----
-marp: true
-theme: default
-#class: invert
----
-
 # Data management with R and RStudio
 ### Javier Sánchez Bachiller
 ##### Higher School of Economics
-
 *jsbachiller.work@gmail.com*
 
 ---
 
-# Why R?
+*This set of small documents is an adaptation of the slides presented during the seminar.*
+
+---
+
+# --- 1. Tools ------------------------------------------------------
+
+We will now review the tools we are going to use and how to get them and set them up. Most likely all of you have R in your system already, but if you are not a habitual user you should anyways update both R and RStudio and even it may pay off to make a new clean installation, as this will spare you some headaches.
+
+## 1.1. R
+
+R is nowadays one of the most popular programming languages for data analysis 
+along with Python. Some of the reasons for this are that it is:
 
 - Easy-to-learn language
 - Specially popular in economics and health sciences
 - Scalable to big-data ecosystems like Spark
-
-- Large community behind it, constant and steady development
+- A language with a large community behind it, constant and steady development
 - Used in leading research institutions and universities around the world
 - Available in all platforms
 - Free
 
----
-
-# Why R...
-
-## instead of Stata?
+#### Why R instead of Stata?
 - Freely available
 - No OS limitations
 
-## instead of Python?
+#### Why R instead of Python?
 - More common among finance and economics topics
 - Easier to install and set-up (out-of-the-box)
 
----
+In order to install it, just visit [R's official webpage](https://cloud.r-project.org/index.html), select your OS and download the latest `base` version. 
 
-# RStudio
 
-- Best IDE (integrated development environment) for R
-- All-in-one: Editor, console, viewer, data and document manager
-- Perfect integration with Git
-- Great debugging
+## 1.2. RStudio
 
----
+As with any other programming language, an IDE (integrated development environment) is fundamental when trying to develop a clean and efficient workflow. RStudio is the best IDE for R, it's an *All-in-one*: Editor, console, viewer, data and document manager. Besides, it has perfect integration with Git and great debugging capabilities.
 
-# Basic R
+You can download it [here](https://www.rstudio.com/products/rstudio/download/) (go for the free version, the others are there for commecial purposes). **I highly recommend that you set up R's and RStudio's working language to English, as this will immensely help you in finding help online**.
+
+## 1.3. Git 
+
+Git is the most popular version control system for software developing. **Version control is a way to keep track of the changes in your code and always be able to go back to previous states.** The biggest host for git is currently [GitHub](https://github.com/). Working with Git and GitHub has some advantages:
+
+- It allows us to keep our code safe from any problems in our laptop
+- Changes are automatically noted down and the newly outdated version of the code, archived
+- Any coding decision that we took can be easily reverted
+- It is great for collaborating team-wise
+- Projects are organized in `repositories`
+
+
+In order to install Git in your laptop, you can follow the links for [Windows](https://github.com/git-for-windows/git/releases/tag/v2.34.1.windows.1) (Select the version that fits your machine, most likely the one reading `Git-2.34.1-64-bit.exe`, and install it) and for [MacOS](http://git-scm.com/download/mac) (to my understanding, the easiest solution is the one under the `Binary installer` section, this provides you with a `.dmg` package to install git. I am a foreigner to the Apple ecosystem, so you might find any of the other options better) or just do a quick search in the internet on 'installing Git'. If any of you is using Linux, most likely your distro had it pre-packed, but in case it did not, just run `sudo apt-get install git` in the terminal (for Debian-based distros).
+
+**Don't forget the directory where you placed it, specially if it's not the default one.** You might need it when configuring RStudio if it does not find it automatically.
+
+Also, you'd need to create an account in [GitHub](https://github.com/) to be able to exploit all the functionalities we will cover.
+
+# --- 2. Version control --------------------------------------------
+
+## 2.1. Create a repository
+
+To create a repository (AKA *repo*) in GitHub, just click on the green button at the upper-left corner of your main page. It should prompt you for a name and to choose some options:
+
+- *Public* makes the repo visible to anyone in the internet, *private* will make sure only your collaborators can see it. No one can edit anything, though, unless you give them specific permission.
+- Include some additional template files. We will chose both the `README` (where you can then include a small description of the objectives and structure of the repo. Go [here](https://github.com/jsbachiller/IDLab) and scroll down a bit to see the one for this repository) and `.gitignore` (a file where we list the files we don't want to be affected by the version control, for example, the data files, as we don't want to overload GitHub with huge files).
+
+## 2.2. Connect your computer (and RStudio) to your GitHub account
+
+### Make sure Git works locally
+
+In RStudio, go to the *Terminal* tab (right by the *console* one, on the left of the screen by default). There run `git --version`. If you get no error, you are all set, RStudio automatically found Git's path. If you did find an error, you need to specify in RStudio where does Git sit in your system. In order to do this, go to `Tools > Global Options > Git/SVN` and click `Browse...` right by *Git executable*. Then, navigate to the installation directory you chose (if you left the default one, you should find it under `C:/Program Files/Git/bin/git.exe` in Windows or under `/usr/bin/git` in Ubuntu --if any of you lets me know about this info for Mac, I'd gladly update it--).
+
+Once Git is found by RStudio, run `git --version` in the *Terminal* again and no error should show up anymore. If it does, refer to [this guide](https://www.rstudio.org/links/using_version_control?version=2021.09.1%2B372&mode=desktop).
+
+### Going online
+
+In order to allow for both-directions communication between our laptop and GitHub, we need to give it authorization to modify our GitHub account's content.
+
+To do this, in your GitHub account go to `Settings > Developer Settings > Personal access tokens > Generate new token`, and select *repo* and *workflow*. Once you generate it, it will show you an alphanumeric hash, this is your token for your laptop. Save the token somewhere, as you will have to re-create it if you lose it. This token is unique and will only be used for the laptop that is undergoing this process (*i.e.*, you will have to create another token to access from any other device).
+
+Go to RStudio, run `install.packages("gitcreds")` and `gitcreds::gitcreds_set()`. Paste there your token to connect RStudio to your GitHub account. You are ready now to get a copy of your repo and send back there the changes you make locally!
+
+## 2.3. Get access to a repo locally
+
+In order to work with a repo comfortably you need to create a copy of it in your own machine. To do that
+
+1. Make sure git client is installed in your laptop
+2. Copy the link of the desired repo by deploying the menu under the green button `Code` in the main GitHub page of the repo 
+
+![](images/clone_repo.png)
+
+3. In RStudio, go to `File > New Project... > Version Control > Git`, paste the link there and create the project
+
+
+## 2.4. Manage locally a repo
+
+Now you have a local copy under the specified directory of the repository sitting on github, you can work on any of the files as you would do normally!
+
+Once you want to commit (that is, to make a *checkpoint* in the code to where you can come back later), go to the `git` tab in the right-upper corner in RStudio and select the button `commit`. There, you select which files to commit and the description of what has changed.
+
+And remember: **Commit early, commit often!**
+
+### Update repository (push)
+
+Several times a day (or even after each set of commits), push the results back to GitHub so that all your commits were saved under your account. You can do this under the same `git` tab we used to commit, using your username and the token we generated to connect from your computer.
+
+It can happen that someone else has worked on the same file as you. If this is the case, pushing will fail and a merging will be required.
+
+### Update local folders (pull)
+
+By using the function `pull` you can update your local copy (that is, the folders in your computer) with the latest changes that were made in the repository by others (or by yourself from another system).
+
+In order to avoid merging problems, don't leave commits pending too long. Don't forget about pushing and pulling from time to time!
+
+# --- 3. Data management with R ------------------------------------
+
+## Basic R
 
 - We assign variables with `<-`, `->` or `=`. Doing `x = 1`, `x <- 1` or `1 -> x` are exactly equivalent. You can define several variables at once: `x <- y <- z <- 1`.
 - Vectors are defined with `c(val1, val2, ...)`
@@ -56,9 +129,7 @@ theme: default
 - Packages are loaded by running `library(package_name)`, and installed by `install.packages("package_name")` (note the quotes!)
 
 
----
-
-# The 'tidyverse'
+## The 'tidyverse'
 
 The [tidyverse](https://www.tidyverse.org/packages/#installation-and-use) environment is a set of packages that has become one of the most complete and powerful solutions available in R to do anything related to data cleaning and visualization. It is based on:
 
@@ -69,9 +140,7 @@ The [tidyverse](https://www.tidyverse.org/packages/#installation-and-use) enviro
 **The basic idea is to concatenate a series of verbs (functions) to manipulate the data by creating a `pipe`, using the *pipe operator* `%>%`**
 
 
----
-
-# Load the data
+## Load the data
 
 When loading the tidyverse, the `readr` package will be automatically loaded too. It allows us to read csv files by using the command `read_csv("file.csv")`.
 
@@ -80,8 +149,7 @@ Should we have other formats of data, additional packages are included, such as 
 
 **Good news:** We can export the resulting data using the same command but replacing `read` by `write`.
 
----
-# Load the data
+Some examples:
 
 ```R
 library(tidyverse)
@@ -94,29 +162,26 @@ read_csv("exampleData.dta") -> dta_data
 read_csv("exampleData.xls") -> excel_data
 ```
 
----
 
-# Manage the data
+## Manage the data
 
 The `dplyr` package from the tidyverse is the main workhorse regarding data manipulation. 
 
-## Data browsing
+### Data browsing
 
 Columns can be easily subsetted with `select`, rows by using `filter`. Sorting the data is carried out by `arrange` and retrieving the unique values of a column can be achieved with `distinct`.
 
-## Data transformation
+### Data transformation
 There are two kind of functions to be used: *summary* functions (which retrieves information from all data points) or *vectorised* functions (which applies a transformation to each data point) to be used and then the operation to be performed. 
 
 
----
-
-# Cheatsheets
+## Cheatsheets
 
 You can find cheatsheets for the `tidyverse` (and some other useful packages) with all relevant functions and a quick summary of how to use them in [here](https://www.rstudio.com/resources/cheatsheets/).
 
 More concretely, the ones we have been mostly touching upon and will be useful to deal with messy data are the ones for the [dplyr package](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf) (data tranformation) and for the [stringr package](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf) (string manipulation).
 
----
+# --- 4. Data scraping from a webpage ---------------------------
 
-# Thanks for your attention!
-# Спасибо за внимание!
+[TO BE UPDATED]
+
