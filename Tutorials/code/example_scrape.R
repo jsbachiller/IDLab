@@ -15,6 +15,8 @@ source_url <- "https://www.gismeteo.com/weather-sankt-peterburg-4079/month/"
 ## Get the data
 read_html(source_url) -> web_data
 
+## The 'html_elements' function search for all elements of a webpage that match
+## the criteria provided. A dot must be placed before the keyword for it to work
 web_data %>% 
   # retrieve the date
   html_elements(".date") %>%
@@ -80,6 +82,9 @@ web_data %>%
   html_attrs() %>%
   unlist() -> sky
 
+## When checking the 'sky' vector, we see that the first element is not 
+## containing weather-related info. This is because "icon" is a common that can
+## be used in many different classes on a webpage. Thus, we drop that line.
 cbind(weather_data, sky = sky[-1]) -> weather_data
 
 weather_data %>%
