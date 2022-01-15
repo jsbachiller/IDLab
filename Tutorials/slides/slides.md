@@ -1,3 +1,13 @@
+---
+
+title: "slides"
+output:
+  html_document:
+    theme: darkly
+    highlight: tango
+    
+---
+
 # Data management with R and RStudio
 ### Javier Sánchez Bachiller
 ##### Higher School of Economics
@@ -81,6 +91,15 @@ Once Git is found by RStudio, run `git --version` in the *Terminal* again and no
 
 In order to allow for both-directions communication between our laptop and GitHub, we need to give it authorization to modify our GitHub account's content.
 
+First of all (if you are using Windows) you will most likely need to configure the identity variables in Git to avoid the 'Please tell me who you are message'. Linux and Mac users should be in no necessity to do so, but in case that error pops up, the steps are exactly the same. Still in the *terminal* run the next two commands
+
+```
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+```
+
+replacing the strings in between quotes by the real values of your GitHub account. **You should not remove the quotes, otherwise the command will fail**.
+
 To do this, in your GitHub account go to `Settings > Developer Settings > Personal access tokens > Generate new token`, and select *repo* and *workflow*. Once you generate it, it will show you an alphanumeric hash, this is your token for your laptop. Save the token somewhere, as you will have to re-create it if you lose it. This token is unique and will only be used for the laptop that is undergoing this process (*i.e.*, you will have to create another token to access from any other device).
 
 Go to RStudio, run `install.packages("gitcreds")` and `gitcreds::gitcreds_set()`. Paste there your token to connect RStudio to your GitHub account. You are ready now to get a copy of your repo and send back there the changes you make locally!
@@ -133,12 +152,13 @@ In order to avoid merging problems, don't leave commits pending too long. Don't 
 
 The [tidyverse](https://www.tidyverse.org/packages/#installation-and-use) environment is a set of packages that has become one of the most complete and powerful solutions available in R to do anything related to data cleaning and visualization. It is based on:
 
-- A concrete *grammar* of data manipulation with which code can be written in a sentence-like manner, making it easily readible and very intuitive. 
-- The concept of *tidy* data: All columns are variables, are rows are observations.
+- A concrete *grammar* of data manipulation with which code can be written in a sentence-like manner, making it easily readable and very intuitive. 
+- The concept of *tidy* data: All columns are variables, all variables are columns; all rows are observations, all observations are rows.
 - *Vectorised* operations: No more time-consuming ugly-looking loops.
 
 **The basic idea is to concatenate a series of verbs (functions) to manipulate the data by creating a `pipe`, using the *pipe operator* `%>%`**
 
+To install it, just run `install.packages("tidyverse")` on the *console* in RStudio. If you see any error message, make sure you updated R. If the problem persists, either look the error message up in the internet or consider doing a fresh install of R and trying again.
 
 ## Load the data
 
