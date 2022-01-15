@@ -88,7 +88,7 @@ git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 ```
 
-replacing the strings in between quotes by the real values of your GitHub account. **You should not remove the quotes, otherwise the command will fail**. Finally, run `git config --global credential.helper store`, which will allow git to remember the username and token once 
+replacing the strings in between quotes by the real values of your GitHub account. **You should not remove the quotes, otherwise the command will fail**. Finally, run `git config --global credential.helper store`, which will allow git to remember the username and token once you introduce them for the first time (recall that this is a device-specific token, so even if it's saved in a file, it's not compromising your GitHub account security. If you are still concerned, use SSH instead).
 
 Them, let's prepare access to your GitHub account from your system. To do so, in your GitHub account go to `Settings > Developer Settings > Personal access tokens > Generate new token`, and select *repo* and *workflow*. Once you generate it, it will show you an alphanumeric hash, this is your token for your laptop. Save the token somewhere, as you will have to re-create it if you lose it. This token is unique and will only be used for the laptop that is undergoing this process (*i.e.*, you will have to create another token to access from any other device).
 
