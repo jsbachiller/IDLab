@@ -1,13 +1,3 @@
----
-
-title: "slides"
-output:
-  html_document:
-    theme: darkly
-    highlight: tango
-    
----
-
 # Data management with R and RStudio
 ### Javier Sánchez Bachiller
 ##### Higher School of Economics
@@ -100,9 +90,9 @@ git config --global user.name "Your Name"
 
 replacing the strings in between quotes by the real values of your GitHub account. **You should not remove the quotes, otherwise the command will fail**.
 
-To do this, in your GitHub account go to `Settings > Developer Settings > Personal access tokens > Generate new token`, and select *repo* and *workflow*. Once you generate it, it will show you an alphanumeric hash, this is your token for your laptop. Save the token somewhere, as you will have to re-create it if you lose it. This token is unique and will only be used for the laptop that is undergoing this process (*i.e.*, you will have to create another token to access from any other device).
+Them, let's prepare access to your GitHub account from your system. To do so, in your GitHub account go to `Settings > Developer Settings > Personal access tokens > Generate new token`, and select *repo* and *workflow*. Once you generate it, it will show you an alphanumeric hash, this is your token for your laptop. Save the token somewhere, as you will have to re-create it if you lose it. This token is unique and will only be used for the laptop that is undergoing this process (*i.e.*, you will have to create another token to access from any other device).
 
-Go to RStudio, run `install.packages("gitcreds")` and `gitcreds::gitcreds_set()`. Paste there your token to connect RStudio to your GitHub account. You are ready now to get a copy of your repo and send back there the changes you make locally!
+Now go to RStudio, run `install.packages("usethis")` and `usethis::edit_r_environ()`. This will open up in your script panel (top-left by default in RStudio) your R environment settings in an easy way. In that file, write down `GITHUB_PAT=` and then paste there the personal access token you just created **without quotes** to connect RStudio to your GitHub account. Restart RStudio and you will be now ready to get a copy of your repo and send back there the changes you make locally!
 
 ## 2.3. Get access to a repo locally
 
@@ -113,14 +103,14 @@ In order to work with a repo comfortably you need to create a copy of it in your
 
 ![](images/clone_repo.png)
 
-3. In RStudio, go to `File > New Project... > Version Control > Git`, paste the link there and create the project
+3. In RStudio, go to `File > New Project... > Version Control > Git`, paste the link in the first box, select a location in your computer (it is recommended to create a folder where you store all our Git projects) and create the project. You can now navigate to it using your standard file browser to confirm that it was created.
 
 
 ## 2.4. Manage locally a repo
 
 Now you have a local copy under the specified directory of the repository sitting on github, you can work on any of the files as you would do normally!
 
-Once you want to commit (that is, to make a *checkpoint* in the code to where you can come back later), go to the `git` tab in the right-upper corner in RStudio and select the button `commit`. There, you select which files to commit and the description of what has changed.
+Once you want to commit (that is, to make a *checkpoint* in the project to where you can come back later), go to the `git` tab in the right-upper corner in RStudio and select the button `commit`. There, you select which files to commit and the description of what has changed (**failing to provide a message or select the files will result in an error**). The commit message is very important, so make it informative, as it should allow you to quickly understand the changes you made in that commit even after not working with that script in months.
 
 And remember: **Commit early, commit often!**
 
@@ -136,9 +126,13 @@ By using the function `pull` you can update your local copy (that is, the folder
 
 In order to avoid merging problems, don't leave commits pending too long. Don't forget about pushing and pulling from time to time!
 
+## 2.5. Hands-on example
+
+Go on and try to clone this very repo in RStudio. Check that all the files here are present in the folder you selected in your computer. Alternatively you can first *fork* this repo (that is, create you own copy of this repo in your GitHub account that you can modify) and then clone this fork into RStudio.
+
 # --- 3. Data management with R ------------------------------------
 
-## Basic R
+## 3.1. Basic R
 
 - We assign variables with `<-`, `->` or `=`. Doing `x = 1`, `x <- 1` or `1 -> x` are exactly equivalent. You can define several variables at once: `x <- y <- z <- 1`.
 - Vectors are defined with `c(val1, val2, ...)`
@@ -148,7 +142,7 @@ In order to avoid merging problems, don't leave commits pending too long. Don't 
 - Packages are loaded by running `library(package_name)`, and installed by `install.packages("package_name")` (note the quotes!)
 
 
-## The 'tidyverse'
+## 3.2. The 'tidyverse'
 
 The [tidyverse](https://www.tidyverse.org/packages/#installation-and-use) environment is a set of packages that has become one of the most complete and powerful solutions available in R to do anything related to data cleaning and visualization. It is based on:
 
@@ -160,7 +154,7 @@ The [tidyverse](https://www.tidyverse.org/packages/#installation-and-use) enviro
 
 To install it, just run `install.packages("tidyverse")` on the *console* in RStudio. If you see any error message, make sure you updated R. If the problem persists, either look the error message up in the internet or consider doing a fresh install of R and trying again.
 
-## Load the data
+## 3.3. Load the data
 
 When loading the tidyverse, the `readr` package will be automatically loaded too. It allows us to read csv files by using the command `read_csv("file.csv")`.
 
@@ -169,7 +163,7 @@ Should we have other formats of data, additional packages are included, such as 
 
 **Good news:** We can export the resulting data using the same command but replacing `read` by `write`.
 
-Some examples:
+Some examples of data loading:
 
 ```R
 library(tidyverse)
@@ -183,7 +177,7 @@ read_csv("exampleData.xls") -> excel_data
 ```
 
 
-## Manage the data
+## 3.4. Manage the data
 
 The `dplyr` package from the tidyverse is the main workhorse regarding data manipulation. 
 
@@ -195,13 +189,19 @@ Columns can be easily subsetted with `select`, rows by using `filter`. Sorting t
 There are two kind of functions to be used: *summary* functions (which retrieves information from all data points) or *vectorised* functions (which applies a transformation to each data point) to be used and then the operation to be performed. 
 
 
-## Cheatsheets
+## 3.5. Cheatsheets
 
 You can find cheatsheets for the `tidyverse` (and some other useful packages) with all relevant functions and a quick summary of how to use them in [here](https://www.rstudio.com/resources/cheatsheets/).
 
 More concretely, the ones we have been mostly touching upon and will be useful to deal with messy data are the ones for the [dplyr package](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf) (data tranformation) and for the [stringr package](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf) (string manipulation).
 
+## 3.6. Hands-on example
+
+Work on the [first example of the seminar](https://github.com/jsbachiller/IDLab/blob/main/Tutorials/code/example_dataWrangling.R) by opening the file `example_dataWrangling.R` contained in the `Tutorials/code` folder **in your local copy of the repo**.
+
 # --- 4. Data scraping from a webpage ---------------------------
 
-[TO BE UPDATED]
+Data scraping is the way to retrieve any kind of data from a webpage. To do this, we use the package `rvest` which is included in the *tidyverse*.
+
+The script we followed on the seminar is `example_scrape.R` contained in the `Tutorials/code` folder **in your local copy of the repo**.
 
