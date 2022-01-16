@@ -203,5 +203,49 @@ Work on the [first example of the seminar](https://github.com/jsbachiller/IDLab/
 
 Data scraping is the way to retrieve any kind of data from a webpage. To do this, we use the package `rvest` which is included in the *tidyverse*.
 
-The script we followed on the seminar is `example_scrape.R` contained in the `Tutorials/code` folder **in your local copy of the repo**.
+## 4.1. Understanding the webpage
 
+### 'robots.txt'
+First of all, we should check which parts of the webpage are we allowed to scrape or whether we are at all allowed. To do this, navigate to the home page and add to its url `robots.txt`. A text file will open up telling you what is allowed to be accessed by a scraper. This is how the one for Gismeteo looks like:
+
+```
+
+User-agent: *
+Disallow: /adv
+Disallow: /article
+Disallow: /news/reklama
+Disallow: /news/label
+Disallow: *mycity*
+Disallow: *get-code*
+Disallow: /ajax
+Disallow: /*?*
+Disallow: /home/*
+Host: https://www.gismeteo.com
+Sitemap: https://www.gismeteo.com/sitemap.xml
+
+```
+
+It's telling you that this rules are for anyone (`User-agent: *`) and that you are allowed to scrape everything except for those sections preceded by a `Disallow:`. Sometimes it can be a bit confusing and not clear if the section you are interested in is in that list or not, but you can always contact the webpage administrator and get approval. This file is useful, as you don't want your scraper to be kicked out of the page or even eventually banned. However, a one-time mistake will pose no problem apart from kicking you out of their servers. This exists in order for the webpage to be able to manage its traffic properly and avoid being overloaded with requests.
+
+Since the exercise we are going to do is very light, we know we won't be kicked out as we will not bomb the page with requests. Thus, even if `*mycity*` was indeed referring to any city we know we will do no harm.
+
+### Structure of the webpage
+
+A webpage is written in the `html` language. It is not required to know this language to do web-scraping, but some basic knowledge surely would prove useful.
+
+By glancing at a webpage, we can identify which information do we want to obtain from it. Once we made up our mind, in our web browser we hover over the part that we want to scrape, right click on it and choose the `inspect` option. A lot of `html` code will appear, but the relevant part will be highlighted: This is the line containing the information we are looking for. We can repeat this for other data points of the same category (for example, we can do this for several maximum temperatures on Gismeteo) to be sure which is the common *class* that we are looking for (in the same example, the class would be `maxt`).
+
+
+## 4.2. 'rvest' package
+
+The `rvest` package is part of the 'tidyverse' and is designed to simplify the web-scraping procedure. It relies on reading a webpage through `read_html`, slicing it up with `html_elements` and `html_attrs`, and retrieving the data point we are interested in with `html_text`.
+
+In order to use it, we need to understand where the information we are interested in sits inside the webpage, and for this we follow the steps just mentioned in the former section. Once we identified how are the classes called, we use their name (or part of it) preceded by a dot and in between quotes to instruct the `html_elements` command to identify it. For example, if the class is called "maxt" we would run `html_elements(".maxt")`.
+
+Sometimes, the class will be too broad or too narrow, so we might need to go deeper by using further `html_elements`, `html_attrs` or even `html_children` to stay only with the information that is relevant for us, or even select a different class. This is a bit of a trial and error process and its difficulty will largely depend on the way the webpage is constructed.
+
+## 4.3. Hands-on example
+
+Work on the [second example of the seminar](https://github.com/jsbachiller/IDLab/blob/main/Tutorials/code/example_scrape.R) by opening the file `example_scrape.R` contained in the `Tutorials/code` folder **in your local copy of the repo**.
+
+---
