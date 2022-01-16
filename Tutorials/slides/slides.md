@@ -126,7 +126,11 @@ By using the function `pull` you can update your local copy (that is, the folder
 
 In order to avoid merging problems, don't leave commits pending too long. Don't forget about pushing and pulling from time to time!
 
-## 2.5. Hands-on example
+## 2.5. Resources
+
+I found [this guide](https://happygitwithr.com/index.html) about using Git in RStudio very useful in the past, having also used it to build up this seminar. Should you have any questions or want to dig deeper, that would make for a good starting point.
+
+## 2.6. Hands-on example
 
 Go on and try to clone this very repo in RStudio. Check that all the files here are present in the folder you selected in your computer. Alternatively you can first *fork* this repo (that is, create you own copy of this repo in your GitHub account that you can modify) and then clone this fork into RStudio.
 
@@ -247,5 +251,13 @@ Sometimes, the class will be too broad or too narrow, so we might need to go dee
 ## 4.3. Hands-on example
 
 Work on the [second example of the seminar](https://github.com/jsbachiller/IDLab/blob/main/Tutorials/code/example_scrape.R) by opening the file `example_scrape.R` contained in the `Tutorials/code` folder **in your local copy of the repo**.
+
+# --- 5. Final comments ---------------------------------------------
+
+This was just a brief introduction to RStudio, to Git, to the 'tidyverse' ecosystem in R and to basic web scraping with the 'rvest' package. Refer often to online documentation, there's a lot on information on these topics (including those beautiful cheatsheets) where the nitty-gritty is explained in greater detail and depth. 
+
+Consider changing R's language to English if you haven't done so, as looking error messages and commands up in the internet will be a recurrent task.
+
+Invest the time necessary for you to fully understand and get used to Git. It's a great investment that will save you a lot of time, allow you to collaborate much more easily and, very importantly, save you from the huge pain (and the corresponding set of curses) of losing a file or deleting parts that you were not supposed to when trying stuff around.
 
 ---
