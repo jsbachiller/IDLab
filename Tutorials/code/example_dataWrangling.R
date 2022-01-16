@@ -106,3 +106,4 @@ temp_data %>%
     temp_change = mean_temp - lag(mean_temp, 1)
   ) -> temp_changes_weekly
 
+# ------------------------------------------------------------------------------
