@@ -260,4 +260,6 @@ Consider changing R's language to English if you haven't done so, as looking err
 
 Invest the time necessary for you to fully understand and get used to Git. It's a great investment that will save you a lot of time, allow you to collaborate much more easily and, very importantly, save you from the huge pain (and the corresponding set of curses) of losing a file or deleting parts that you were not supposed to when trying stuff around.
 
+Happy coding!
+
 ---
