@@ -73,7 +73,11 @@ To create a repository (AKA *repo*) in GitHub, just click on the green button at
 
 ### Make sure Git works locally
 
-In RStudio, go to the *Terminal* tab (right by the *console* one, on the left of the screen by default). There run `git --version`. If you get no error, you are all set, RStudio automatically found Git's path. If you did find an error, you need to specify in RStudio where does Git sit in your system. In order to do this, go to `Tools > Global Options > Git/SVN` and click `Browse...` right by *Git executable*. Then, navigate to the installation directory you chose (if you left the default one, you should find it under `C:/Program Files/Git/bin/git.exe` in Windows or under `/usr/bin/git` in Ubuntu --if any of you lets me know about this info for Mac, I'd gladly update it--).
+In RStudio, go to the *Terminal* tab (right by the *console* one, on the left of the screen by default -- see screenshot below).
+
+![Circled in red you can find the *terminal* tab, and the *console* lies within the blue circle](images/console_terminal.png)
+
+There run `git --version`. If you get no error, you are all set, RStudio automatically found Git's path. If you did find an error, you need to specify in RStudio where does Git sit in your system. In order to do this, go to `Tools > Global Options > Git/SVN` and click `Browse...` right by *Git executable*. Then, navigate to the installation directory you chose (if you left the default one, you should find it under `C:/Program Files/Git/bin/git.exe` in Windows or under `/usr/bin/git` in Ubuntu --if any of you lets me know about this info for Mac, I'd gladly update it--).
 
 Once Git is found by RStudio, run `git --version` in the *Terminal* again and no error should show up anymore. If it does, refer to [this guide](https://www.rstudio.org/links/using_version_control?version=2021.09.1%2B372&mode=desktop).
 
